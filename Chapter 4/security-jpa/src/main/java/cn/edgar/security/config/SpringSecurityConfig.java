@@ -31,8 +31,16 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        // 创建自定义的登录页
+        // 这样的话，Spring Security的登录界面将不起作用
         http.authorizeRequests()
-                .antMatchers("/").hasRole("USER")
-                .antMatchers("/", "/**").permitAll();
+                .antMatchers("/register").hasRole("USER")
+                .antMatchers("/").permitAll()
+                .and()
+                .formLogin()
+                .loginPage("/login")
+                .and()
+                .logout()
+                .logoutSuccessUrl("/");
     }
 }
